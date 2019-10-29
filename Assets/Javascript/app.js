@@ -6,7 +6,6 @@ $(document).ready(function () {
     var timer = 20;
     var timerOn = false;
     var intervalidId;
-    var qCount = options.length;
     var pick;
     var index;
     var holder = [];
@@ -58,8 +57,10 @@ $(document).ready(function () {
             holder.push(options[i]);
             console.log(options);
     }
+});
 
     function decrement() {
+        var unanswered =  0;
         $("#timeleft").html("<h3>Time remaining: " + timer + "</h3>");
         timer --;
         if (timer === 0) {
@@ -67,19 +68,19 @@ $(document).ready(function () {
             stop();
             $("#answerblock").html("<p>Time is up! The correct answer is: " + pick.choice[pick.answer] + "</p>");
         }	
-    }
+    };
     
     function runTimer(){
         if (!timerOn) {
         intervalidId = setInterval(decrement, 1000); 
         timerOn = true;
         }
-    }
+    };
 
     function stop() {
         timerOn = false;
         clearInterval(intervalidId);
-    }
+    };
 
     function displayQuestion() {
         index = Math.floor(Math.random()*options.length);
@@ -91,7 +92,7 @@ $(document).ready(function () {
             userChoice.html(pick.choice[i]);
             userChoice.attr("data-guessvalue", i);
             $("#answerblock").append(userChoice);
-    }
+    };
     
     $(".answerchoice").on("click", function () {
         userAnswer = parseInt($(this).attr("data-guessvalue"));
@@ -106,9 +107,10 @@ $(document).ready(function () {
             userAnswer="";
             $("#answerblock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
         }
-    })}
+    });
     
-    if ((incorrect + correct + unanswered) === qCount) {
+    if ((incorrect + correct + unanswered) == qCount) {
+        var qCount = options.length;
 		$("#questionblock").empty();
 		$("#questionblock").html("<h3>Game Over!  Here's how you did: </h3>");
 		$("#answerblock").append("<h4> Correct: " + correct + "</h4>" );
@@ -121,7 +123,8 @@ $(document).ready(function () {
     } else {
 		runTimer();
         displayQuestion();
-    }}, 3000);
+    }
+}
 
     $("#reset").on("click", function() {
         $("#reset").hide();
@@ -132,5 +135,5 @@ $(document).ready(function () {
         }
         runTimer();
         displayQuestion();
-    })
+    });
 });
